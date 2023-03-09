@@ -61,7 +61,22 @@ class PokemonDetails extends StatelessWidget {
               );
             },
           )
-        : const Expanded(flex:1, child: Center(child: Text('No data'))),
+        // : const Expanded(flex:1, child: Center(child: Text('No data'))),
+        : Expanded(
+            child: PageView(
+              children: const <Widget>[
+                Center(
+                  child: Text('First Page'),
+                ),
+                Center(
+                  child: Text('Second Page'),
+                ),
+                Center(
+                  child: Text('Third Page'),
+                ),
+              ],
+            ),
+          )
       ]
     );
   }

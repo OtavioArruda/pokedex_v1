@@ -23,6 +23,7 @@ class _PokedexHomeState extends State<PokedexHome> {
   void _setCurrentPokemonId(int id) {
     setState(() {
       _currentPokemonId = id;
+      print('pokemon id: $id');
     });
   }
 

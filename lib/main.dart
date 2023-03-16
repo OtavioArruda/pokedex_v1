@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 import 'package:pokedex_v1/pokemon_details.dart';
 import 'package:pokedex_v1/pokemon_list.dart';
@@ -23,7 +20,6 @@ class _PokedexHomeState extends State<PokedexHome> {
   void _setCurrentPokemonId(int id) {
     setState(() {
       _currentPokemonId = id;
-      print('pokemon id: $id');
     });
   }
 

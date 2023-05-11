@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import 'package:clickable_list_wheel_view/clickable_list_wheel_widget.dart';
-import 'package:clickable_list_wheel_view/measure_size.dart';
 
 class PokemonList extends StatelessWidget {
   PokemonList({super.key, required this.setCurrentPokemonId});

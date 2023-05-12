@@ -33,7 +33,7 @@ class _PokedexHomeState extends State<PokedexHome> {
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                   child: Card(
                     color: Colors.lightBlue,
                     child: SizedBox(
@@ -81,11 +81,11 @@ class FooterAndHeader extends CustomPainter {
     ..style = PaintingStyle.fill;
 
     // canvas.drawCircle(const Offset(50, 50), 20, paint);
-    var rrect = RRect.fromRectAndCorners(
+    var rrectUp = RRect.fromRectAndCorners(
       Rect.fromCenter(
         center: Offset(
-          MediaQuery.of(context).size.width / 2, 
-          MediaQuery.of(context).size.height * 0.225 / 2
+          MediaQuery.of(context).size.width / 2,
+          MediaQuery.of(context).size.height * 0.1125
         ),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.225
@@ -93,10 +93,25 @@ class FooterAndHeader extends CustomPainter {
       topLeft: const Radius.circular(40),
       topRight: const Radius.circular(40),
       bottomLeft: const Radius.circular(0),
-      bottomRight: const Radius.circular(0),
+      bottomRight: const Radius.circular(0)
     );
 
-    var oval = Rect.fromCircle(
+    var rrectDown = RRect.fromRectAndCorners(
+      Rect.fromCenter(
+        center: Offset(
+          MediaQuery.of(context).size.width / 2,
+          MediaQuery.of(context).size.height * 0.8875
+        ),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.225
+      ), 
+      topLeft: const Radius.circular(0),
+      topRight: const Radius.circular(0),
+      bottomLeft: const Radius.circular(40),
+      bottomRight: const Radius.circular(40)
+    );
+
+    var ovalUp = Rect.fromCircle(
       center: Offset(
         MediaQuery.of(context).size.width / 2,
         MediaQuery.of(context).size.height * 0.25
@@ -104,9 +119,21 @@ class FooterAndHeader extends CustomPainter {
       radius: MediaQuery.of(context).size.width * 0.35
     );
 
-    var rrectPath = Path()..addRRect(rrect);
+    var ovalDown = Rect.fromCircle(
+      center: Offset(
+        MediaQuery.of(context).size.width / 2,
+        MediaQuery.of(context).size.height * 0.75
+      ),
+      radius: MediaQuery.of(context).size.width * 0.35
+    );
 
-    var ovalPath = Path()..addOval(oval);
+    var rrectPath = Path()
+    ..addRRect(rrectUp)
+    ..addRRect(rrectDown);
+
+    var ovalPath = Path()
+    ..addOval(ovalUp)
+    ..addOval(ovalDown);
 
     canvas.drawPath(Path.combine(PathOperation.difference, rrectPath, ovalPath), paint);
   }

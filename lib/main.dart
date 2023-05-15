@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 
 import 'package:pokedex_v1/pokemon_details.dart';
 import 'package:pokedex_v1/pokemon_list.dart';
@@ -16,12 +19,29 @@ class PokedexHome extends StatefulWidget {
 }
 
 class _PokedexHomeState extends State<PokedexHome> {
-  int? _currentPokemonId;
+  late int _currentPokemonId;
 
   void _setCurrentPokemonId(int id) {
     setState(() {
       _currentPokemonId = id;
     });
+  }
+
+  Future<List<dynamic>> fetchPokemons() => get(Uri.https('pokeapi.co', '/api/v2/pokemon', {'limit': '2000'}))
+  .then((res) {
+    if(res.statusCode == 200) {
+      return json.decode(res.body)['results'];
+    }
+    else {
+      throw Exception('Falha ao buscas os pokemons');
+    }
+  });
+
+  @override
+  void initState() {
+    _currentPokemonId = 1;
+
+    super.initState();
   }
 
   @override
@@ -42,7 +62,21 @@ class _PokedexHomeState extends State<PokedexHome> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.9,
-                    child: PokemonDetails(currentPokemonId: _currentPokemonId)
+                    child: FutureBuilder(
+                      future: fetchPokemons(),
+                      builder: (context, snapshot) {
+                        if(snapshot.hasData) {
+                          return PokemonDetails(currentPokemonId: _currentPokemonId, setCurrentPokemonId: _setCurrentPokemonId, pokemonsList: snapshot.data!);
+                        }
+                        else if(snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    )
+                    // child: PokemonDetails(currentPokemonId: _currentPokemonId)
+                    // child: PokemonList(setCurrentPokemonId: _setCurrentPokemonId),
                   ),
                 ),
               ),

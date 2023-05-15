@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class PokemonDetails extends StatelessWidget {
-  const PokemonDetails({super.key, required this.currentPokemonId});
+  const PokemonDetails({super.key, required this.currentPokemonId, required this.setCurrentPokemonId, required this.pokemonsList});
 
-  final int? currentPokemonId;
+  final int currentPokemonId;
+  final Function(int) setCurrentPokemonId;
+  final List<dynamic> pokemonsList;
 
   Future<dynamic> fetchPokemonById(int id) => get(Uri.https('pokeapi.co', '/api/v2/pokemon/$id'))
   .then((res) {
@@ -19,65 +21,35 @@ class PokemonDetails extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        currentPokemonId != null
-        ? FutureBuilder(
-            future: fetchPokemonById(currentPokemonId!),
-            builder: (context, snapshot) {
-              if(snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              else if(snapshot.connectionState != ConnectionState.done) {
-                return const Expanded(
-                  flex: 1,
-                  child: Center(child: CircularProgressIndicator())
-                );
-              }
-              else if(snapshot.hasData) {
-                List<Widget> typeChips = snapshot.data!['types'].map<Widget>((e) => Chip(label: Text(e['type']['name']))).toList();
+  Widget build(BuildContext context) => PageView.builder(
+      itemCount: pokemonsList.length,
+      itemBuilder: (context, index) => FutureBuilder(
+        future: fetchPokemonById(currentPokemonId),
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            return Container(
+              alignment: Alignment.center,
+              child: Card(
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 4,
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(snapshot.data!['name'])
+                    ]
+                  )
+                )
+              ),
+            );
+          }
 
-                return Column(
-                  children: [
-                    Text('${snapshot.data!['name']}'),
-                    Image(
-                      width: 200,
-                      centerSlice: const Rect.fromLTRB(15, 15, 175, 175),
-                      image: NetworkImage('${snapshot.data!['sprites']['front_default']}')
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: typeChips
-                    )
-                  ],
-                );
-              }
-
-              return const Expanded(
-                flex: 1,
-                child: Center(child: CircularProgressIndicator())
-              );
-            },
-          )
-        // : const Expanded(flex:1, child: Center(child: Text('No data'))),
-        : Expanded(
-            child: PageView(
-              children: const <Widget>[
-                Center(
-                  child: Text('First Page'),
-                ),
-                Center(
-                  child: Text('Second Page'),
-                ),
-                Center(
-                  child: Text('Third Page'),
-                ),
-              ],
-            ),
-          )
-      ]
+          return Container(
+            alignment: Alignment.center,
+            child: const CircularProgressIndicator(color: Colors.black),
+          );
+        }
+      ),
+      onPageChanged: (index) => setCurrentPokemonId(index + 1),
     );
   }
-}

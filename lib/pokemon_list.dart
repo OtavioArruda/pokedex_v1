@@ -24,25 +24,25 @@ class PokemonList extends StatelessWidget {
       future: fetchPokemons(),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) => Card(
-              clipBehavior: Clip.hardEdge,
-              child: InkWell(
-                splashColor: Colors.blue.withAlpha(30),
-                onTap: () => setCurrentPokemonId(index + 1),
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 5),
-                    alignment: Alignment.centerLeft,
-                    child: Text("No ${index + 1}. ${snapshot.data![index]['name']}"),
-                  ),
-                ),
-              ),
-            )
-          );
+          // return ListView.builder(
+          //   itemCount: snapshot.data!.length,
+          //   itemBuilder: (context, index) => Card(
+          //     clipBehavior: Clip.hardEdge,
+          //     child: InkWell(
+          //       splashColor: Colors.blue.withAlpha(30),
+          //       onTap: () => setCurrentPokemonId(index + 1),
+          //       child: SizedBox(
+          //         width: 50,
+          //         height: 50,
+          //         child: Container(
+          //           padding: const EdgeInsets.only(left: 5),
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("No ${index + 1}. ${snapshot.data![index]['name']}"),
+          //         ),
+          //       ),
+          //     ),
+          //   )
+          // );
         }
         else if(snapshot.hasError) {
           return Text('${snapshot.error}');

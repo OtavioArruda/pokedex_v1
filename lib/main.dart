@@ -47,23 +47,7 @@ class _PokedexHomeState extends State<PokedexHome> {
                 ),
               ),
             ),
-            CustomPaint(painter: FooterAndHeader(context)),
-            // Positioned(
-            //   top: 0,
-            //   child: Container(
-            //     height: 100,
-            //     width: MediaQuery.of(context).size.width,
-            //     color: Colors.red
-            //   )
-            // ),
-            // Positioned(
-            //   bottom: 0,
-            //   child: Container(
-            //     height: 100,
-            //     width: MediaQuery.of(context).size.width,
-            //     color: Colors.red
-            //   )
-            // ),
+            CustomPaint(painter: FooterAndHeader(context))
           ],
         ),
       )

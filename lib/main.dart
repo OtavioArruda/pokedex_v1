@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:pokedex_v1/pokemon_details.dart';
 import 'package:pokedex_v1/pokemon_list.dart';
@@ -25,45 +26,46 @@ class _PokedexHomeState extends State<PokedexHome> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
     return MaterialApp(
       home: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                  child: Card(
-                    color: Colors.lightBlue,
-                    child: SizedBox(
-                      width: 100,
-                      height: double.infinity,
-                      child: PokemonDetails(currentPokemonId: _currentPokemonId)
-                    ),
+        body: Stack(
+          children: [
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                alignment: Alignment.center,
+                child: Card(
+                  color: Colors.lightBlue,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    child: PokemonDetails(currentPokemonId: _currentPokemonId)
                   ),
                 ),
               ),
-              CustomPaint(painter: FooterAndHeader(context)),
-              // Positioned(
-              //   top: 0,
-              //   child: Container(
-              //     height: 100,
-              //     width: MediaQuery.of(context).size.width,
-              //     color: Colors.red
-              //   )
-              // ),
-              // Positioned(
-              //   bottom: 0,
-              //   child: Container(
-              //     height: 100,
-              //     width: MediaQuery.of(context).size.width,
-              //     color: Colors.red
-              //   )
-              // ),
-            ],
-          ),
-        )
+            ),
+            CustomPaint(painter: FooterAndHeader(context)),
+            // Positioned(
+            //   top: 0,
+            //   child: Container(
+            //     height: 100,
+            //     width: MediaQuery.of(context).size.width,
+            //     color: Colors.red
+            //   )
+            // ),
+            // Positioned(
+            //   bottom: 0,
+            //   child: Container(
+            //     height: 100,
+            //     width: MediaQuery.of(context).size.width,
+            //     color: Colors.red
+            //   )
+            // ),
+          ],
+        ),
       )
     );
   }
@@ -76,66 +78,86 @@ class FooterAndHeader extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    Size size = MediaQuery.of(context).size;
+
+    Paint redPaint = Paint()
     ..color = Colors.red
     ..style = PaintingStyle.fill;
 
-    // canvas.drawCircle(const Offset(50, 50), 20, paint);
-    var rrectUp = RRect.fromRectAndCorners(
+    Paint blackPaint = Paint()
+    ..color = Colors.black
+    ..style = PaintingStyle.fill;
+
+    RRect rrectUp = RRect.fromRectAndCorners(
       Rect.fromCenter(
-        center: Offset(
-          MediaQuery.of(context).size.width / 2,
-          MediaQuery.of(context).size.height * 0.1125
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.225
-      ), 
-      topLeft: const Radius.circular(40),
-      topRight: const Radius.circular(40),
+        center: Offset(size.width / 2, size.height * 0.1125),
+        width: size.width,
+        height: size.height * 0.225
+      ),
+      topLeft: const Radius.circular(30),
+      topRight: const Radius.circular(30),
       bottomLeft: const Radius.circular(0),
       bottomRight: const Radius.circular(0)
     );
 
-    var rrectDown = RRect.fromRectAndCorners(
+    RRect rrectDown = RRect.fromRectAndCorners(
       Rect.fromCenter(
-        center: Offset(
-          MediaQuery.of(context).size.width / 2,
-          MediaQuery.of(context).size.height * 0.8875
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.225
-      ), 
+        center: Offset(size.width / 2, size.height * 0.8875),
+        width: size.width,
+        height: size.height * 0.225
+      ),
       topLeft: const Radius.circular(0),
       topRight: const Radius.circular(0),
-      bottomLeft: const Radius.circular(40),
-      bottomRight: const Radius.circular(40)
+      bottomLeft: const Radius.circular(30),
+      bottomRight: const Radius.circular(30)
     );
 
-    var ovalUp = Rect.fromCircle(
-      center: Offset(
-        MediaQuery.of(context).size.width / 2,
-        MediaQuery.of(context).size.height * 0.25
-      ),
-      radius: MediaQuery.of(context).size.width * 0.35
+    Rect ovalUp = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height * 0.25),
+      radius: size.width * 0.35
     );
 
-    var ovalDown = Rect.fromCircle(
-      center: Offset(
-        MediaQuery.of(context).size.width / 2,
-        MediaQuery.of(context).size.height * 0.75
-      ),
-      radius: MediaQuery.of(context).size.width * 0.35
+    Rect ovalDown = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height * 0.75),
+      radius: size.width * 0.35
     );
 
-    var rrectPath = Path()
+    Path rrectPath = Path()
     ..addRRect(rrectUp)
     ..addRRect(rrectDown);
 
-    var ovalPath = Path()
+    Path ovalPath = Path()
     ..addOval(ovalUp)
     ..addOval(ovalDown);
 
-    canvas.drawPath(Path.combine(PathOperation.difference, rrectPath, ovalPath), paint);
+    canvas.drawPath(Path.combine(PathOperation.difference, rrectPath, ovalPath), redPaint);
+
+    Rect recUp = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height / 2),
+      radius: size.width * 0.49
+    );
+
+    rrectPath
+    ..reset()
+    ..addRect(recUp);
+
+    ovalPath = Path.combine(PathOperation.difference, ovalPath, rrectPath);
+
+    ovalUp = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height * 0.25),
+      radius: size.width * 0.25
+    );
+
+    ovalDown = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height * 0.75),
+      radius: size.width * 0.25
+    );
+
+    Path ovalInsidePath = Path()
+    ..addOval(ovalUp)
+    ..addOval(ovalDown);
+
+    canvas.drawPath(Path.combine(PathOperation.difference, ovalPath, ovalInsidePath), blackPaint);
   }
 
   @override

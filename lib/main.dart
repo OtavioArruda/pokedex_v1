@@ -55,7 +55,7 @@ class _PokedexHomeState extends State<PokedexHome> {
             Expanded(
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 alignment: Alignment.center,
                 child: Card(
                   color: Colors.lightBlue,
@@ -150,9 +150,10 @@ class FooterAndHeader extends CustomPainter {
 
     canvas.drawPath(Path.combine(PathOperation.difference, rrectPath, ovalPath), redPaint);
 
-    Rect recUp = Rect.fromCircle(
+    Rect recUp = Rect.fromCenter(
       center: Offset(size.width / 2, size.height / 2),
-      radius: size.width * 0.49
+      width: size.width,
+      height: size.height * 0.55
     );
 
     rrectPath

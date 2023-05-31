@@ -18,7 +18,8 @@ class PokemonDetails extends StatelessWidget {
     else {
       throw Exception('Falha ao buscas os pokemons');
     }
-  });
+  })
+  .onError((error, stackTrace) => throw Exception('Falha ao buscas os pokemons'));
 
   @override
   Widget build(BuildContext context) => PageView.builder(

@@ -27,7 +27,7 @@ class _PokedexHomeState extends State<PokedexHome> {
     });
   }
 
-  Future<List<dynamic>> fetchPokemons() => get(Uri.https('pokeapi.co', '/api/v2/pokemon', {'limit': '2000'}))
+  Future fetchPokemons() => get(Uri.https('pokeapi.co', '/api/v2/pokemon', {'limit': '2000'}))
   .then((res) {
     if(res.statusCode == 200) {
       return json.decode(res.body)['results'];
@@ -35,7 +35,8 @@ class _PokedexHomeState extends State<PokedexHome> {
     else {
       throw Exception('Falha ao buscas os pokemons');
     }
-  });
+  })
+  .onError((error, stackTrace) => Exception('Falha ao buscas os pokemons'));
 
   @override
   void initState() {

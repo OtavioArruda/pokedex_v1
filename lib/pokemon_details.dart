@@ -22,82 +22,80 @@ class PokemonDetails extends StatelessWidget {
   .onError((error, stackTrace) => throw Exception('Falha ao buscas os pokemons'));
 
   @override
-  Widget build(BuildContext context) => PageView.builder(
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 1),
+    alignment: Alignment.center,
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        border: Border.all(
+          color: Colors.white,
+          // strokeAlign: BorderSide.none,
+          width: 0.5
+        )
+      ),
+      height: MediaQuery.of(context).size.height * 0.4,
+      alignment: Alignment.center,
+      child:  PageView.builder(
       itemCount: pokemonsList.length,
       itemBuilder: (context, index) => FutureBuilder(
         future: fetchPokemonById(currentPokemonId),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 1),
-              alignment: Alignment.center,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  border: Border.all(
-                    color: Colors.white,
-                    // strokeAlign: BorderSide.none,
-                    width: 0.5
-                  )
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.white,
+                        width: 0.5
+                      )
+                    )
+                  ),
+                  child: Text('${snapshot.data!['name']} No. ${index + 1}')
                 ),
-                height: MediaQuery.of(context).size.height * 0.4,
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Colors.white,
-                            width: 0.5
-                          )
-                        )
-                      ),
-                      child: Text('${snapshot.data!['name']} No. ${index + 1}')
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Image(
-                            width: MediaQuery.of(context).size.height * 0.2,
-                            centerSlice: Rect.fromCircle(
-                              center: const Offset(0, 0),
-                              radius: 5
-                            ),
-                            image: NetworkImage('${snapshot.data!['sprites']['front_default']}')
-                          )
+                    Expanded(
+                      flex: 1,
+                      child: Image(
+                        width: MediaQuery.of(context).size.height * 0.2,
+                        centerSlice: Rect.fromCircle(
+                          center: const Offset(0, 0),
+                          radius: 5
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(vertical: 5),
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.white,
-                                      width: 0.5
-                                    )
-                                  )
-                                ),
-                                child: Text('Type - ${snapshot.data!['types'].fold('', (value, element) => value == '' ? element['type']['name'] : value += ' / ${element['type']['name']}')}')
-                                // child: const Text('teste'),
-                              ),
-                            ]
-                          )
-                        )
-                      ]
+                        image: NetworkImage('${snapshot.data!['sprites']['front_default']}')
+                      )
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.white,
+                                  width: 0.5
+                                )
+                              )
+                            ),
+                            child: Text('Type - ${snapshot.data!['types'].fold('', (value, element) => value == '' ? element['type']['name'] : value += ' / ${element['type']['name']}')}')
+                            // child: const Text('teste'),
+                          ),
+                        ]
+                      )
                     )
                   ]
                 )
-              )
+              ]
             );
           }
 
@@ -108,5 +106,7 @@ class PokemonDetails extends StatelessWidget {
         }
       ),
       onPageChanged: (index) => setCurrentPokemonId(index + 1),
-    );
-  }
+    )
+    )
+  );
+}

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
 import 'package:pokedex_v1/pokemon_details.dart';
-import 'package:pokedex_v1/pokemon_list.dart';
 import 'package:pokedex_v1/pokemon_search.dart';
 
 void main() {
@@ -70,8 +69,6 @@ class _PokedexHomeState extends State<PokedexHome> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    print(_pokemonSearchVisibility);
-
     return MaterialApp(
       home: Scaffold(
         body: Stack(
@@ -80,7 +77,7 @@ class _PokedexHomeState extends State<PokedexHome> {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               alignment: Alignment.center,
               child: Card(
-                color: Colors.lightBlue,
+                color: const Color.fromARGB(255, 129, 234, 234),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.9,
@@ -156,7 +153,7 @@ class FooterAndHeader extends CustomPainter {
     Size size = MediaQuery.of(context).size;
 
     Paint redPaint = Paint()
-    ..color = Colors.red
+    ..color = const Color.fromARGB(255, 170 ,12 , 30)
     ..style = PaintingStyle.fill;
 
     Paint blackPaint = Paint()

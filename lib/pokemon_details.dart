@@ -31,7 +31,7 @@ class PokemonDetails extends StatelessWidget {
     alignment: Alignment.center,
     child: Container(
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: const Color.fromARGB(255, 136, 211, 245),
         border: Border.all(
           color: Colors.white,
           // strokeAlign: BorderSide.none,

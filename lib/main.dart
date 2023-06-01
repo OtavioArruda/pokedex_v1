@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 
 import 'package:pokedex_v1/pokemon_details.dart';
 import 'package:pokedex_v1/pokemon_list.dart';
+import 'package:pokedex_v1/pokemon_search.dart';
 
 void main() {
   runApp(const PokedexHome());
@@ -57,7 +58,6 @@ class _PokedexHomeState extends State<PokedexHome> {
         body: Stack(
           children: [
             Container(
-              width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 5),
               alignment: Alignment.center,
               child: Card(
@@ -78,13 +78,36 @@ class _PokedexHomeState extends State<PokedexHome> {
                       return const Center(child: CircularProgressIndicator());
                     }
                   )
-                  // child: PokemonDetails(currentPokemonId: _currentPokemonId)
-                  // child: PokemonList(setCurrentPokemonId: _setCurrentPokemonId),
                 ),
               ),
             ),
+            FutureBuilder(
+              future: _pokemonsList,
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  return PokemonSearch(pokemonList: snapshot.data, setCurrentPokemonId: _setCurrentPokemonId,);
+                }
+                else if(snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
 
-            CustomPaint(painter: FooterAndHeader(context))
+                return const Center(child: CircularProgressIndicator());
+              },
+            ),
+            CustomPaint(painter: FooterAndHeader(context)),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.25 - MediaQuery.of(context).size.width * 0.35 - 60 / 4,
+              left: MediaQuery.of(context).size.width / 2 - 60 / 1.5,
+              width: 60,
+              height: 60,
+              child: IconButton(
+                iconSize: 60,
+                alignment: Alignment.center,
+                icon: const Icon(Icons.expand_more),
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            )
           ],
         ),
       )

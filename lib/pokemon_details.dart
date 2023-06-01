@@ -35,7 +35,7 @@ class PokemonDetails extends StatelessWidget {
         border: Border.all(
           color: Colors.white,
           // strokeAlign: BorderSide.none,
-          width: 0.5
+          width: 1
         )
       ),
       height: MediaQuery.of(context).size.height * 0.45,
@@ -55,7 +55,7 @@ class PokemonDetails extends StatelessWidget {
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.white,
-                          width: 0.5
+                          width: 1
                         )
                       )
                     ),
@@ -87,12 +87,53 @@ class PokemonDetails extends StatelessWidget {
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Colors.white,
-                                    width: 0.5
+                                    width: 1
                                   )
                                 )
                               ),
                               child: Text('Type - ${snapshot.data!['types'].fold('', (value, element) => value == '' ? element['type']['name'] : value += ' / ${element['type']['name']}')}')
-                              // child: const Text('teste'),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 1
+                                  )
+                                )
+                              ),
+                              child: Text('Ability - ${snapshot.data!['abilities'][0]['ability']['name']}')
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 1
+                                  )
+                                )
+                              ),
+                              child: Text('Height - ${snapshot.data!['height'] / 10} m')
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 1
+                                  )
+                                )
+                              ),
+                              child: Text('Weight - ${snapshot.data!['weight'] / 10} kg')
                             ),
                           ]
                         )

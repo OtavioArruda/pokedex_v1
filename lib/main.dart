@@ -56,36 +56,34 @@ class _PokedexHomeState extends State<PokedexHome> {
       home: Scaffold(
         body: Stack(
           children: [
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                alignment: Alignment.center,
-                child: Card(
-                  color: Colors.lightBlue,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.9,
-                    child: FutureBuilder(
-                      future: _pokemonsList,
-                      builder: (context, snapshot) {
-                        if(snapshot.hasData) {
-                          return PokemonDetails(currentPokemonId: _currentPokemonId, setCurrentPokemonId: _setCurrentPokemonId, pokemonsList: snapshot.data!);
-                        }
-                        else if(snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-
-                        return const Center(child: CircularProgressIndicator());
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              alignment: Alignment.center,
+              child: Card(
+                color: Colors.lightBlue,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: FutureBuilder(
+                    future: _pokemonsList,
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData) {
+                        return PokemonDetails(currentPokemonId: _currentPokemonId, setCurrentPokemonId: _setCurrentPokemonId, pokemonsList: snapshot.data!);
                       }
-                    )
-                    // child: PokemonDetails(currentPokemonId: _currentPokemonId)
-                    // child: PokemonList(setCurrentPokemonId: _setCurrentPokemonId),
-                  ),
+                      else if(snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  )
+                  // child: PokemonDetails(currentPokemonId: _currentPokemonId)
+                  // child: PokemonList(setCurrentPokemonId: _setCurrentPokemonId),
                 ),
               ),
             ),
-            
+
             CustomPaint(painter: FooterAndHeader(context))
           ],
         ),

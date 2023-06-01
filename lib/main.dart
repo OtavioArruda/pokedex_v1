@@ -21,11 +21,28 @@ class PokedexHome extends StatefulWidget {
 
 class _PokedexHomeState extends State<PokedexHome> {
   late int _currentPokemonId;
+  bool _pokemonSearchVisibility = false;
+  double _searchIconTurns = 0;
   Future? _pokemonsList;
 
   void _setCurrentPokemonId(int id) {
     setState(() {
       _currentPokemonId = id;
+    });
+  }
+
+  void _setPokemonSearchVisibility() {
+    setState(() {
+      _searchIconTurns += 1 / 2;
+      _pokemonSearchVisibility = !_pokemonSearchVisibility;
+    });
+  }
+
+  void _setPokemonSearchVisibilityAndId(int id) {
+    setState(() {
+      _currentPokemonId = id;
+      _searchIconTurns += 1 / 2;
+      _pokemonSearchVisibility = !_pokemonSearchVisibility;
     });
   }
 
@@ -52,6 +69,8 @@ class _PokedexHomeState extends State<PokedexHome> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+    print(_pokemonSearchVisibility);
 
     return MaterialApp(
       home: Scaffold(
@@ -85,7 +104,14 @@ class _PokedexHomeState extends State<PokedexHome> {
               future: _pokemonsList,
               builder: (context, snapshot) {
                 if(snapshot.hasData) {
-                  return PokemonSearch(pokemonList: snapshot.data, setCurrentPokemonId: _setCurrentPokemonId,);
+                  return AnimatedPositioned(
+                    top: MediaQuery.of(context).size.height * 0.25 - MediaQuery.of(context).size.width * 0.35,
+                    height: _pokemonSearchVisibility ? MediaQuery.of(context).size.height * 0.6 : 0,
+                    width: MediaQuery.of(context).size.width,
+                    duration: const Duration(seconds: 2),
+                    curve: Curves.fastOutSlowIn,
+                    child: PokemonSearch(pokemonList: snapshot.data, setCurrentPokemonId: _setPokemonSearchVisibilityAndId),
+                  );
                 }
                 else if(snapshot.hasError) {
                   return Text('${snapshot.error}');
@@ -96,16 +122,21 @@ class _PokedexHomeState extends State<PokedexHome> {
             ),
             CustomPaint(painter: FooterAndHeader(context)),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.25 - MediaQuery.of(context).size.width * 0.35 - 60 / 4,
-              left: MediaQuery.of(context).size.width / 2 - 60 / 1.5,
+              top: MediaQuery.of(context).size.height * 0.25 - MediaQuery.of(context).size.width * 0.375,
+              left: MediaQuery.of(context).size.width / 2 - 60 / 2,
               width: 60,
               height: 60,
               child: IconButton(
                 iconSize: 60,
-                alignment: Alignment.center,
-                icon: const Icon(Icons.expand_more),
+                padding: EdgeInsets.zero,
+                icon: AnimatedRotation(
+                  turns: _searchIconTurns,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  child: const Icon(Icons.expand_more)
+                ),
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () => _setPokemonSearchVisibility(),
               ),
             )
           ],

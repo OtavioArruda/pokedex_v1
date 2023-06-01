@@ -11,7 +11,7 @@ class PokemonSearch extends StatelessWidget {
     return Container(
       color: Colors.black,
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      height: MediaQuery.of(context).size.height * 0.4,
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.35),
       child: ListView.builder(
         itemCount: pokemonList.length,
         itemBuilder: (context, index) => Card(

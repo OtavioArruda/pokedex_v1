@@ -20,6 +20,7 @@ class PokedexHome extends StatefulWidget {
 
 class _PokedexHomeState extends State<PokedexHome> {
   late int _currentPokemonId;
+  Future? _pokemonsList;
 
   void _setCurrentPokemonId(int id) {
     setState(() {
@@ -41,6 +42,8 @@ class _PokedexHomeState extends State<PokedexHome> {
   @override
   void initState() {
     _currentPokemonId = 1;
+
+    _pokemonsList = fetchPokemons();
 
     super.initState();
   }
@@ -64,7 +67,7 @@ class _PokedexHomeState extends State<PokedexHome> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.9,
                     child: FutureBuilder(
-                      future: fetchPokemons(),
+                      future: _pokemonsList,
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           return PokemonDetails(currentPokemonId: _currentPokemonId, setCurrentPokemonId: _setCurrentPokemonId, pokemonsList: snapshot.data!);
@@ -82,6 +85,7 @@ class _PokedexHomeState extends State<PokedexHome> {
                 ),
               ),
             ),
+            
             CustomPaint(painter: FooterAndHeader(context))
           ],
         ),

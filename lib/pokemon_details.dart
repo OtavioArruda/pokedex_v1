@@ -15,7 +15,10 @@ class PokemonDetails extends StatelessWidget {
   Future<dynamic> fetchPokemonById(int id) => get(Uri.https('pokeapi.co', '/api/v2/pokemon/$id'))
   .then((res) {
     if(res.statusCode == 200) {
-      _pageViewController.jumpToPage(id - 1);
+      //TODO: resolve later
+      try {
+        _pageViewController.jumpToPage(id - 1);
+      } catch (e){}
 
       return json.decode(res.body);
     }
@@ -27,7 +30,7 @@ class PokemonDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 1),
+    padding: const EdgeInsets.symmetric(horizontal: 1),
     alignment: Alignment.center,
     child: Container(
       decoration: BoxDecoration(

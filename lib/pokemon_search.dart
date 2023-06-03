@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PokemonSearch extends StatelessWidget {
-  const PokemonSearch({super.key, required this.pokemonList, required this.setCurrentPokemonId});
+  const PokemonSearch({
+    super.key, 
+    required this.pokemonList, 
+    required this.setCurrentPokemonId
+  });
 
   final List<dynamic> pokemonList;
   final Function(int) setCurrentPokemonId;
@@ -10,24 +14,45 @@ class PokemonSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.35),
+      margin: const EdgeInsets.symmetric(horizontal: 9),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.width * 0.35,
+        bottom: 10
+      ),
       child: ListView.builder(
         itemCount: pokemonList.length,
-        itemBuilder: (context, index) => Card(
-          clipBehavior: Clip.hardEdge,
-          child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
-            onTap: () => setCurrentPokemonId(index + 1),
-            child: SizedBox(
-              width: 50,
-              height: 50,
-              child: Container(
-                padding: const EdgeInsets.only(left: 5),
-                alignment: Alignment.centerLeft,
-                child: Text("No ${index + 1}. ${pokemonList[index]['name']}"),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () => setCurrentPokemonId(index + 1),
+          child: Container(
+            height: 50,
+            padding: const EdgeInsets.only(left: 5),
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            alignment: Alignment.center,
+            child: Container(
+              decoration: const BoxDecoration(
+                borderRadius:BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30)
+                ),
+                color: Colors.white
               ),
-            ),
+              child: Row(
+
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: Chip(label: Text('No ${index + 1}'))
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      style: const TextStyle(fontSize: 18),
+                      '${pokemonList[index]['name']}'
+                    )
+                  ),
+                ],
+              ),
+            )
           ),
         )
       )

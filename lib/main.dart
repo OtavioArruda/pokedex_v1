@@ -45,7 +45,7 @@ class _PokedexHomeState extends State<PokedexHome> {
     });
   }
 
-  Future fetchPokemons() => get(Uri.https('pokeapi.co', '/api/v2/pokemon', {'limit': '2000'}))
+  Future fetchPokemons() => get(Uri.https('pokeapi.co', '/api/v2/pokemon', {'limit': '1010'}))
   .then((res) {
     if(res.statusCode == 200) {
       return json.decode(res.body)['results'];

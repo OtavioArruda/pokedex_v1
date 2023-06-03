@@ -83,25 +83,40 @@ class _PokemonSearchState extends State<PokemonSearch> {
           Expanded(
             child: ListView.builder(
               itemCount: filteredPokemonsList.length,
-              itemBuilder: (context, index) => Card(
-                clipBehavior: Clip.hardEdge,
-                child: InkWell(
-                  splashColor: Colors.blue.withAlpha(30),
-                  onTap: () => widget.setCurrentPokemonId(filteredPokemonsList[index].id),
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: Container(
-                      padding: EdgeInsets.only(left: 5),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "No ${filteredPokemonsList[index].id}. ${filteredPokemonsList[index].name}",
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () => widget.setCurrentPokemonId(filteredPokemonsList[index].id),
+                child: Container(
+                  height: 50,
+                  padding: const EdgeInsets.only(left: 5),
+                  margin: const EdgeInsets.symmetric(vertical: 2),
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius:BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        bottomLeft: Radius.circular(30)
                       ),
+                      color: Colors.white
                     ),
-                  ),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Chip(label: Text('No ${filteredPokemonsList[index].id}'))
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            style: const TextStyle(fontSize: 18),
+                            filteredPokemonsList[index].name
+                          )
+                        ),
+                      ],
+                    ),
+                  )
                 ),
-              ),
-            ),
+              )
+            )
           ),
         ],
       ),
